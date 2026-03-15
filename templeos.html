@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pushkar's Project Temple</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>[ PUSHKAR_OS_V1 ]</h1>
+    <nav>
+        <button onclick="showSection('about')">ABOUT</button> | 
+        <button onclick="showSection('projects')">PROJECTS</button> | 
+        <button onclick="showSection('ai-assistant')">AI_CHAT</button> |
+        <button onclick="showSection('games')">GAMES</button> |
+        <button onclick="showSection('settings')" style="color: #ffff55;">SETTINGS</button> |
+        <button onclick="clearTerminal()" style="color: #ff5555;">CLEAR</button>
+    </nav>
+</header>
+
+<main id="main-terminal">
+    <div id="welcome-msg">
+        <p>> SYSTEM_INITIALIZED...</p>
+        <p>> KERNEL: READY</p>
+        <p>> STATUS: ACTIVE_NODE_SMIT</p>
+        <p>> TYPE 'HELP' IN AI_CHAT FOR COMMANDS</p>
+    </div>
+
+    <div id="about" class="content-section">
+        <h2>> WHO_AM_I</h2>
+        <p>B.Tech CSE Student @ Sikkim Manipal Institute of Technology.</p>
+        <p>Specializing in C Programming and Low-Level Systems.</p>
+    </div>
+
+    <div id="projects" class="content-section">
+        <h2>> DIRECTORY: /PROJECTS</h2>
+        <div class="project-list">
+            <div class="project-card">
+                <h3>[ HUFFMAN_COMPRESS.C ]</h3>
+                <p>// File compression logic.</p>
+                <button class="run-btn" onclick="simulateRun('Tree Generated. Compression: 42.3%')">[ RUN ]</button>
+            </div>
+            <div class="project-card">
+                <h3>[ MATRIX_MULT.C ]</h3>
+                <p>// High-performance linear algebra.</p>
+                <button class="run-btn" onclick="simulateRun('Calculation complete.')">[ RUN ]</button>
+            </div>
+        </div>
+        <div id="project-output" class="output-box" style="display:none;">
+            <p id="output-text"></p>
+            <button onclick="this.parentElement.style.display='none'">[ CLOSE ]</button>
+        </div>
+    </div>
+
+    <div id="ai-assistant" class="content-section">
+        <h2>> KERNEL_INTELLIGENCE</h2>
+        <div id="ai-chat-window">
+            <p>[SYS]: CONNECTION ESTABLISHED. READY FOR COMMANDS.</p>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <input type="text" id="ai-input" placeholder="Enter query..." onkeypress="if(event.key === 'Enter') askAI()">
+            <button onclick="askAI()" id="send-btn">EXECUTE</button>
+        </div>
+    </div>
+
+    <div id="games" class="content-section">
+        <h2>> SYSTEM_ENTERTAINMENT_MODULE</h2>
+       <div class="game-menu">
+    <button class="run-btn" onclick="startGuessingGame()">[ RUN_GUESSER ]</button>
+    <button class="run-btn" onclick="startTicTacToe()">[ RUN_TTT ]</button>
+    <button class="run-btn" onclick="startSnake()">[ RUN_SNAKE ]</button>
+    <button class="run-btn" onclick="startHangman()">[ RUN_HANGMAN ]</button>
+</div>
+        <div id="game-canvas" class="output-box" style="display:none; margin-top: 20px;">
+            <p class="output-header" id="game-title">GAME_CONSOLE</p>
+            <div id="game-content"></div>
+            <button class="run-btn" onclick="closeGame()" style="margin-top:10px; background:var(--accent-red); color:white;">[ TERMINATE_PROCESS ]</button>
+        </div>
+    </div>
+
+    <div id="support" class="content-section">
+        <h2>> SYSTEM_SUPPORT</h2>
+        <p>Report bugs or request technical documentation:</p>
+        <p>> EMAIL: <a href="mailto:pushkar.dev@smit.edu" style="color: var(--terminal-green);">pushkar.dev@smit.edu</a></p>
+    </div>
+
+    <div id="donate" class="content-section">
+        <h2>> FUNDING_PROTOCOL</h2>
+        <div class="payment-grid">
+            <div class="payment-card">
+                <h3>[ UPI_TRANSFER ]</h3>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=kpushkar08@ptyes&pn=Pushkar%20Kumar&cu=INR" class="qr-code">
+                <p class="text-small">ID: kpushkar08@ptyes</p>
+                <button class="run-btn" onclick="copyToClipboard('kpushkar08@ptyes')" style="font-size: 0.7rem;">[ COPY_ID ]</button>
+            </div>
+            <div class="payment-card">
+                <h3>[ PAYPAL_GATEWAY ]</h3>
+                <a href="https://www.paypal.com/in/home" target="_blank" class="run-btn">[ OPEN_PAYPAL ]</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings" class="content-section">
+        <h2>> SYSTEM_CONFIG_UTILITY</h2>
+        <div class="settings-grid">
+            <div class="setting-item">
+                <p>[ VISUAL_THEME ]</p>
+                <button class="run-btn" onclick="setTheme('dark')">DARK_MODE</button>
+                <button class="run-btn" onclick="setTheme('light')">LIGHT_MODE</button>
+                <button class="run-btn" onclick="setTheme('matrix')" style="color:#0f0; border-color:#0f0;">MATRIX</button>
+            </div>
+            <div class="setting-item">
+                <p>[ TEXT_SCALING ]</p>
+                <button class="run-btn" onclick="changeFontSize(0.9)">SMALL</button>
+                <button class="run-btn" onclick="changeFontSize(1.1)">LARGE</button>
+            </div>
+            <div id="log-container" style="background: rgba(0,0,0,0.2); padding: 10px; border: 1px solid var(--border-color); height: 150px; overflow-y: auto; margin-top: 10px;"></div>
+<button class="run-btn" onclick="clearLogs()">[ WIPE_LOGS ]</button>
+            <div class="security-log-box" style="border: 1px solid var(--border-color); padding: 15px; margin-top: 20px; background: rgba(0,0,0,0.5);">
+                <p style="color: white; font-weight: bold;">> [ ACCESS_LOGS_INITIALIZED ]</p>
+                <p>> REMOTE_ADDR: <span id="user-ip" style="color: var(--terminal-green);">127.0.0.1</span></p>
+                <p>> OS_TYPE: <span id="user-os" style="color: var(--terminal-green);">DETECTING...</span></p>
+                <p>> BROWSER_ID: <span id="user-browser" style="color: var(--terminal-green);">DETECTING...</span></p>
+                <p>> SESSION_START: <span id="session-time" style="color: var(--terminal-green);">--:--:--</span></p>
+            </div>
+            <div class="setting-item">
+                <p>[ DATA_MANAGEMENT ]</p>
+                <button class="run-btn" style="background: var(--accent-red); color: white;" onclick="factoryReset()">FACTORY_RESET</button>
+            </div>
+        </div>
+        <div id="system-logs" class="content-section">
+    <h2>> SESSION_AUDIT_TRAIL</h2>
+    <div id="log-container" style="background: rgba(0,0,0,0.2); padding: 15px; border: 1px solid var(--border-color); height: 200px; overflow-y: auto; font-size: 0.8rem; font-family: monospace;">
+        </div>
+    <button class="run-btn" onclick="clearLogs()" style="margin-top: 10px; background: var(--accent-red); color: white;">[ WIPE_LOGS ]</button>
+</div>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-left">© 2026 PUSHKAR | NODES: <span id="node-count">--</span></div>
+        <div class="footer-center">STATUS: <span id="live-clock">--:--:--</span> | UPTIME: <span id="uptime">0</span>s</div>
+        <div class="footer-right">
+            <button onclick="showSection('support')" class="footer-link">[ SUPPORT ]</button> | 
+            <button onclick="showSection('donate')" class="footer-link">[ DONATE ]</button>
+        </div>
+    </div>
+</footer>
+
+<script>
+let uptimeSeconds = 0;
+const API_KEY = "AIzaSyC882TdnrSskGCs5lOVOqRdaoz6o2vdSj8"; 
+let tttBoard = ["","","","","","","","",""];
+let snakeInterval = null;
+let currentTargetNumber = 0;
+let hangmanWord = "";
+let guessedLetters = [];
+
+// --- SYSTEM CORE ---
+function updateSystem() {
+    const now = new Date();
+    document.getElementById('live-clock').textContent = now.toLocaleTimeString();
+    uptimeSeconds++;
+    document.getElementById('uptime').textContent = uptimeSeconds;
+}
+
+function showSection(sectionId) {
+    document.getElementById('welcome-msg').style.display = 'none';
+    document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+    const target = document.getElementById(sectionId);
+    if (target) {
+        target.style.display = 'block';
+        addLog(`ACCESS_GRANTED: /${sectionId.toUpperCase()}`);
+    }
+}
+
+function clearTerminal() {
+    document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+    document.getElementById('welcome-msg').style.display = 'block';
+    addLog("TERMINAL_CLEARED");
+}
+
+function setTheme(mode) {
+    document.body.className = ''; 
+    if (mode !== 'light') document.body.classList.add(mode + '-mode');
+    localStorage.setItem('user-theme', mode);
+    addLog(`THEME_SET: ${mode.toUpperCase()}`);
+}
+
+function changeFontSize(multiplier) {
+    const currentSize = parseFloat(getComputedStyle(document.body).fontSize);
+    document.body.style.fontSize = (currentSize * multiplier) + "px";
+    addLog(`FONT_SCALING_APPLIED: ${multiplier}x`);
+}
+
+function factoryReset() {
+    if(confirm("WIPE ALL THEME SETTINGS? SECURITY LOGS WILL REMAIN.")) {
+        localStorage.removeItem('user-theme');
+        addLog("SYSTEM_FACTORY_RESET_INITIATED");
+        location.reload();
+    }
+}
+
+// --- AI KERNEL ---
+async function askAI() {
+    const input = document.getElementById('ai-input');
+    const chatWindow = document.getElementById('ai-chat-window');
+    const userQuery = input.value.trim();
+    const MAX_MESSAGES = 3;
+    let messageCount = parseInt(localStorage.getItem('user_chat_count')) || 0;
+
+    if (messageCount >= MAX_MESSAGES) {
+        chatWindow.innerHTML += `<p style="color: var(--accent-red);">[SYS_ERR]: LOCAL_QUOTA_EXCEEDED.</p>`;
+        return;
+    }
+    if (!userQuery) return;
+
+    addLog(`AI_QUERY: "${userQuery.substring(0, 20)}..."`);
+    chatWindow.innerHTML += `<p style="color: #666;">$ query --input "${userQuery}"</p>`;
+    input.value = "";
+
+    try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: "Short terminal response: " + userQuery }] }] })
+        });
+        const data = await response.json();
+        const aiReply = data.candidates[0].content.parts[0].text;
+        chatWindow.innerHTML += `<p style="color: var(--terminal-green);">[KERNEL]: ${aiReply}</p>`;
+        localStorage.setItem('user_chat_count', ++messageCount);
+    } catch (err) {
+        chatWindow.innerHTML += `<p style="color: var(--accent-red);">[SYS_ERR]: OFFLINE.</p>`;
+    }
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+// --- GAMES MODULE ---
+function closeGame() {
+    if (snakeInterval) {
+        clearInterval(snakeInterval);
+        snakeInterval = null;
+    }
+    document.getElementById('game-canvas').style.display = 'none';
+    document.onkeydown = null;
+    addLog("GAME_PROCESS_TERMINATED");
+}
+
+function startGuessingGame() {
+    const canvas = document.getElementById('game-canvas');
+    const content = document.getElementById('game-content');
+    currentTargetNumber = Math.floor(Math.random() * 100) + 1;
+    canvas.style.display = 'block';
+    document.getElementById('game-title').textContent = "NUMBER_GUESSER.EXE";
+    addLog("START_PROCESS: GUESSER");
+    content.innerHTML = `
+        <p>System has selected a number (1-100).</p>
+        <input type="number" id="guess-in" style="background:transparent; color:inherit; border:1px solid var(--border-color); padding:5px;">
+        <button class="run-btn" onclick="checkGuess()">SUBMIT</button>
+        <p id="guess-feedback" style="margin-top:10px; font-weight:bold;"></p>`;
+}
+
+function checkGuess() {
+    const val = document.getElementById('guess-in').value;
+    const feed = document.getElementById('guess-feedback');
+    if (!val) return;
+    const guess = parseInt(val);
+    if (guess === currentTargetNumber) {
+        feed.innerHTML = `<span style="color:#00FF00;">[SUCCESS]: MATCH FOUND.</span>`;
+        addLog("GUESSER_RESULT: WIN");
+        setTimeout(startGuessingGame, 2000);
+    } else {
+        feed.textContent = guess < currentTargetNumber ? "SIGNAL_TOO_LOW" : "SIGNAL_TOO_HIGH";
+        feed.style.color = "orange";
+    }
+}
+
+function startHangman() {
+    const words = ["POINTER", "VARIABLE", "FUNCTION", "RECURSION", "COMPILER", "KERNEL"];
+    hangmanWord = words[Math.floor(Math.random() * words.length)];
+    guessedLetters = [];
+    document.getElementById('game-canvas').style.display = 'block';
+    document.getElementById('game-title').textContent = "HANGMAN_C_EDITION.EXE";
+    addLog("START_PROCESS: HANGMAN");
+    renderHangman();
+}
+
+function renderHangman() {
+    const display = hangmanWord.split('').map(l => guessedLetters.includes(l) ? l : "_").join(" ");
+    document.getElementById('game-content').innerHTML = `
+        <p>GUESS THE C KEYWORD:</p>
+        <h3 style="letter-spacing: 5px;">${display}</h3>
+        <input type="text" id="h-input" maxlength="1" style="width:30px; background:transparent; color:inherit; border:1px solid var(--border-color);">
+        <button class="run-btn" onclick="makeHangmanMove()">TRY</button>
+        <p>Used: ${guessedLetters.join(", ")}</p>`;
+}
+
+function makeHangmanMove() {
+    const input = document.getElementById('h-input');
+    const letter = input.value.toUpperCase();
+    input.value = "";
+    if (letter && !guessedLetters.includes(letter)) {
+        guessedLetters.push(letter);
+    }
+    renderHangman();
+    if (!document.getElementById('game-content').innerText.includes("_")) {
+        addLog("HANGMAN_RESULT: SUCCESS");
+        alert("ACCESS_GRANTED");
+        startHangman();
+    }
+}
+
+function startSnake() {
+    const canvas = document.getElementById('game-canvas');
+    const content = document.getElementById('game-content');
+    document.getElementById('game-title').textContent = "SNAKE_OS_PORT.SYS";
+    canvas.style.display = 'block';
+    addLog("START_PROCESS: SNAKE_ENGINE");
+    if (snakeInterval) clearInterval(snakeInterval);
+    content.innerHTML = `<canvas id="snakeBoard" width="200" height="200" style="border:1px solid var(--border-color); display:block; margin:auto; background:#000;"></canvas>`;
+    
+    const ctx = document.getElementById('snakeBoard').getContext('2d');
+    let snake = [{x: 10, y: 10}, {x: 10, y: 11}, {x: 10, y: 12}];
+    let food = {x: 5, y: 5};
+    let dx = 0, dy = -1, boxSize = 10;
+
+    document.onkeydown = (e) => {
+        if (e.key === "ArrowUp" && dy === 0) { dx = 0; dy = -1; }
+        if (e.key === "ArrowDown" && dy === 0) { dx = 0; dy = 1; }
+        if (e.key === "ArrowLeft" && dx === 0) { dx = -1; dy = 0; }
+        if (e.key === "ArrowRight" && dx === 0) { dx = 1; dy = 0; }
+    };
+
+    snakeInterval = setInterval(() => {
+        const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+        if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) return gameOver();
+        for (let s of snake) if (head.x === s.x && head.y === s.y) return gameOver();
+
+        snake.unshift(head);
+        if (head.x === food.x && head.y === food.y) {
+            food = {x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 19)};
+        } else { snake.pop(); }
+
+        ctx.fillStyle = "#000"; ctx.fillRect(0, 0, 200, 200);
+        ctx.fillStyle = "#00FF00"; 
+        snake.forEach(p => ctx.fillRect(p.x * boxSize, p.y * boxSize, boxSize - 1, boxSize - 1));
+        ctx.fillStyle = "#FF0000"; 
+        ctx.fillRect(food.x * boxSize, food.y * boxSize, boxSize - 1, boxSize - 1);
+    }, 150);
+
+    function gameOver() {
+        clearInterval(snakeInterval);
+        addLog("SNAKE_RESULT: CRASH");
+        alert("SYSTEM_CRASH");
+    }
+}
+
+function startTicTacToe() {
+    const canvas = document.getElementById('game-canvas');
+    tttBoard = ["","","","","","","","",""];
+    canvas.style.display = 'block';
+    document.getElementById('game-title').textContent = "TIC_TAC_TOE.SYS_V1.0";
+    addLog("START_PROCESS: TTT_LOGIC");
+    renderTTT();
+}
+
+function renderTTT() {
+    const content = document.getElementById('game-content');
+    let html = '<div style="display:grid; grid-template-columns: repeat(3, 60px); gap:10px; justify-content: center; margin-top: 20px;">';
+    tttBoard.forEach((cell, i) => {
+        html += `<div onclick="makeMove(${i})" style="width:60px; height:60px; border:1px solid var(--border-color); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1.5rem; font-weight:bold; background: rgba(128,128,128,0.1); transition: 0.2s;">${cell}</div>`;
+    });
+    content.innerHTML = html + '</div>';
+}
+
+function makeMove(i) {
+    if (tttBoard[i] !== "") return;
+    tttBoard[i] = "X";
+    renderTTT();
+    if (checkWinner("X")) { 
+        addLog("TTT_RESULT: USER_WIN");
+        setTimeout(() => { alert("USER_WON"); startTicTacToe(); }, 100); 
+        return; 
+    }
+    const emptyIndices = tttBoard.map((val, idx) => val === "" ? idx : null).filter(val => val !== null);
+    if (emptyIndices.length > 0) {
+        tttBoard[emptyIndices[Math.floor(Math.random() * emptyIndices.length)]] = "O";
+        setTimeout(renderTTT, 300);
+    }
+}
+
+function checkWinner(player) {
+    const winConditions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+    return winConditions.some(condition => condition.every(index => tttBoard[index] === player));
+}
+
+// --- LOGGING ENGINE ---
+function addLog(action) {
+    const timestamp = new Date().toLocaleTimeString();
+    const newEntry = `[${timestamp}] ${action}`;
+    let logs = JSON.parse(localStorage.getItem('os_audit_logs')) || [];
+    logs.unshift(newEntry);
+    if (logs.length > 50) logs.pop();
+    localStorage.setItem('os_audit_logs', JSON.stringify(logs));
+    displayLogs();
+}
+
+function displayLogs() {
+    const container = document.getElementById('log-container');
+    if (!container) return;
+    const logs = JSON.parse(localStorage.getItem('os_audit_logs')) || [];
+    container.innerHTML = logs.length === 0 ? `<p style="opacity:0.5;">> NO_LOG_DATA</p>` : logs.map(e => `<p>> ${e}</p>`).join('');
+}
+
+function clearLogs() {
+    if(confirm("DELETE AUDIT TRAIL?")) {
+        localStorage.removeItem('os_audit_logs');
+        displayLogs();
+    }
+}
+
+// --- UTILS & INIT ---
+function simulateRun(msg) {
+    const out = document.getElementById('project-output');
+    out.style.display = 'block';
+    document.getElementById('output-text').textContent = "> " + msg;
+    addLog(`EXEC_PROJECT: ${msg}`);
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert("Copied!");
+        addLog("DATA_CLIPPED_TO_INTERNAL_BUFFER");
+    });
+}
+
+function initializeSecurityLogs() {
+    const ua = navigator.userAgent;
+    document.getElementById('user-os').textContent = ua.includes("Win") ? "Windows_NT" : ua.includes("Mac") ? "macOS_Darwin" : "Linux_Kernel";
+    document.getElementById('user-browser').textContent = ua.includes("Chrome") ? "Chrome_V8" : "Gecko_Firefox";
+    document.getElementById('session-time').textContent = new Date().toLocaleTimeString();
+    fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => document.getElementById('user-ip').textContent = d.ip).catch(()=> document.getElementById('user-ip').textContent = "LOCAL_HOST");
+}
+
+window.onload = () => {
+    setInterval(updateSystem, 1000);
+    initializeSecurityLogs();
+    const savedTheme = localStorage.getItem('user-theme');
+    if (savedTheme) setTheme(savedTheme);
+    document.getElementById('node-count').textContent = Math.floor(Math.random() * 10) + 5;
+    displayLogs();
+    addLog("SYSTEM_BOOT_SEQUENCE_COMPLETE");
+};
+</script>
+</body>
+</html>
